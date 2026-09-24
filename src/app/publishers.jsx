@@ -199,7 +199,7 @@ export const CONDUCTEURS = [
   "Sébastien BECUWE",
   "Pascal GRECO",
   "Christian HUMBERT",
-  "Michael JACQUOT",
+  "Michaël JACQUOT",
   "Patrick LE PIEZ",
   "Gérard RAETH",
   "Victor TAHAR",

@@ -250,9 +250,10 @@ export default function Weekend() {
                   <div className="badges">
                     {w.nettoyage && (
                       <span className="badge badge--clean">
-                        <Sparkles size={12} /> Nettoyage de la semaine
+                        <Sparkles size={12} /> Semaine de nettoyage de la Salle
+                        du Royaume
                         {w.grandNettoyage
-                          ? ` · grand nettoyage : ${w.grandNettoyage}`
+                          ? ` · Grand nettoyage prévu : ${w.grandNettoyage}`
                           : ""}
                       </span>
                     )}
