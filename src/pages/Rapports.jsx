@@ -264,12 +264,12 @@ export default function Rapports() {
                 return (
                   <tr key={r.nom}>
                     <td className="doc-table__date">{r.nom}</td>
-                    <td className="c">{r.worked ? "✓" : "—"}</td>
+                    <td className="c">{r.worked ? "✓" : "✗"}</td>
                     <td>{statut(r)}</td>
                     <td className="c mono">
                       {isPionnier ? num(r.heures) : "—"}
                     </td>
-                    <td className="c">{r.cours ? num(r.nbCours) : "—"}</td>
+                    <td className="c">{r.cours ? num(r.nbCours) : ""}</td>
                     <td>
                       {num(r.credit)
                         ? `${num(r.credit)} h${r.motifCredit ? ` (${r.motifCredit})` : ""}`

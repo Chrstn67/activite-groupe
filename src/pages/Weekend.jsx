@@ -31,6 +31,15 @@ const EMPTY = {
 
 const h = (t) => (t ? t.replace(":", "h") : "—");
 
+/** Retourne "samedi", "dimanche" ou null selon le contenu de la chaîne */
+function detectJourGrandNettoyage(str) {
+  if (!str) return null;
+  const s = str.toLowerCase();
+  if (s.includes("dim")) return "dimanche";
+  if (s.includes("sam")) return "samedi";
+  return null; // non précisé → on affichera dans les deux blocs
+}
+
 function Field({ label, children }) {
   return (
     <label className="field">
@@ -52,6 +61,16 @@ function Toggle({ checked, onChange, label, testId }) {
       <span className="toggle__track" />
       <span>{label}</span>
     </label>
+  );
+}
+
+/** Pastille "Grand nettoyage" affichée dans un bloc jour */
+function GrandNettoyageBadge({ heure }) {
+  return (
+    <div className="we-day-block__cleaning">
+      <span>✦</span>
+      <span>Grand nettoyage · {heure}</span>
+    </div>
   );
 }
 
@@ -185,7 +204,7 @@ export default function Weekend() {
                     testId={`cleaning-toggle-${key}`}
                   />
                   {w.nettoyage && (
-                    <Field label="Horaire du grand nettoyage (weekend)">
+                    <Field label="Horaire du grand nettoyage (samedi ou dimanche)">
                       <input
                         type="text"
                         placeholder="Ex. samedi 8h00"
@@ -227,6 +246,18 @@ export default function Weekend() {
         <Sheet ref={sheetRef} title={title} testId="weekend-sheet">
           {sats.map((s) => {
             const w = get(iso(s));
+            const jourGN = detectJourGrandNettoyage(w.grandNettoyage);
+
+            // Faut-il afficher le badge grand nettoyage dans ce bloc jour ?
+            const showGNSamedi =
+              w.nettoyage &&
+              w.grandNettoyage &&
+              (jourGN === "samedi" || jourGN === null);
+            const showGNDimanche =
+              w.nettoyage &&
+              w.grandNettoyage &&
+              (jourGN === "dimanche" || jourGN === null);
+
             return (
               <article
                 className="we-block"
@@ -242,7 +273,7 @@ export default function Weekend() {
                   </p>
                 ) : (
                   <>
-                    {/* — Infos weekend globales — */}
+                    {/* — Bandeau semaine : petit nettoyage + TPL — */}
                     {(w.nettoyage || w.tpl) && (
                       <div className="info-cards info-cards--weekend">
                         {w.nettoyage && (
@@ -250,13 +281,13 @@ export default function Weekend() {
                             <div className="info-card__icon">✦</div>
                             <div>
                               <div className="info-card__title">
-                                Nettoyage de la salle
+                                Nettoyage de la Salle du Royaume
                               </div>
-                              {w.grandNettoyage && (
-                                <div className="info-card__sub">
-                                  Grand nettoyage · {w.grandNettoyage}
+                              <div className="info-card__sub">
+                                <div className="info-card__sub-item">
+                                  Petit nettoyage après la réunion en semaine
                                 </div>
-                              )}
+                              </div>
                             </div>
                           </div>
                         )}
@@ -287,6 +318,9 @@ export default function Weekend() {
                           </tr>
                         </tbody>
                       </table>
+                      {showGNSamedi && (
+                        <GrandNettoyageBadge heure={w.grandNettoyage} />
+                      )}
                       {w.notesSamedi && (
                         <p className="we-block__notes">
                           <strong>Infos :</strong> {w.notesSamedi}
@@ -312,6 +346,9 @@ export default function Weekend() {
                           <p className="we-block__notes">
                             <strong>Infos :</strong> {w.notesDimanche}
                           </p>
+                        )}
+                        {showGNDimanche && (
+                          <GrandNettoyageBadge heure={w.grandNettoyage} />
                         )}
                       </div>
                     )}
