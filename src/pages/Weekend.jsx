@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useOutletContext } from "react-router-dom";
-import { Sparkles, BookOpen, Ban } from "lucide-react";
+import { Ban } from "lucide-react";
 import { useStored } from "@/app/storage";
 import {
   saturdays,
@@ -18,10 +18,11 @@ const EMPTY = {
   motif: "",
   samediHeure: "09:30",
   samediLieu: "",
+  notesSamedi: "",
   dimanche: false,
   dimancheHeure: "09:30",
   dimancheLieu: "",
-  notes: "",
+  notesDimanche: "",
   nettoyage: false,
   grandNettoyage: "",
   tpl: false,
@@ -109,6 +110,7 @@ export default function Weekend() {
                 </Field>
               ) : (
                 <>
+                  {/* — Samedi — */}
                   <div className="grid-2">
                     <Field label="Samedi — horaire">
                       <input
@@ -126,6 +128,16 @@ export default function Weekend() {
                       />
                     </Field>
                   </div>
+                  <Field label="Notes — samedi">
+                    <textarea
+                      rows={2}
+                      placeholder="Activités, infos spécifiques au samedi…"
+                      {...t("notesSamedi")}
+                      data-testid={`saturday-notes-input-${key}`}
+                    />
+                  </Field>
+
+                  {/* — Dimanche — */}
                   <Toggle
                     checked={w.dimanche}
                     onChange={(v) => set(key, "dimanche", v)}
@@ -133,35 +145,36 @@ export default function Weekend() {
                     testId={`sunday-toggle-${key}`}
                   />
                   {w.dimanche && (
-                    <div className="grid-2">
-                      <Field label="Dimanche — horaire">
-                        <input
-                          type="time"
-                          {...t("dimancheHeure")}
-                          data-testid={`sunday-time-input-${key}`}
+                    <>
+                      <div className="grid-2">
+                        <Field label="Dimanche — horaire">
+                          <input
+                            type="time"
+                            {...t("dimancheHeure")}
+                            data-testid={`sunday-time-input-${key}`}
+                          />
+                        </Field>
+                        <Field label="Dimanche — lieu">
+                          <input
+                            type="text"
+                            placeholder="Lieu"
+                            {...t("dimancheLieu")}
+                            data-testid={`sunday-place-input-${key}`}
+                          />
+                        </Field>
+                      </div>
+                      <Field label="Notes — dimanche">
+                        <textarea
+                          rows={2}
+                          placeholder="Activités, infos spécifiques au dimanche…"
+                          {...t("notesDimanche")}
+                          data-testid={`sunday-notes-input-${key}`}
                         />
                       </Field>
-                      <Field label="Dimanche — lieu">
-                        <input
-                          type="text"
-                          placeholder="Lieu"
-                          {...t("dimancheLieu")}
-                          data-testid={`sunday-place-input-${key}`}
-                        />
-                      </Field>
-                    </div>
+                    </>
                   )}
                 </>
               )}
-
-              <Field label="Activités du groupe (hors prédication)">
-                <textarea
-                  rows={2}
-                  placeholder="Notes…"
-                  {...t("notes")}
-                  data-testid={`weekend-notes-input-${key}`}
-                />
-              </Field>
 
               <div className="grid-2 grid-2--top">
                 <div>
@@ -221,54 +234,85 @@ export default function Weekend() {
                 data-testid={`weekend-preview-${iso(s)}`}
               >
                 <h4 className="we-block__title">Weekend du {fmtShort(s)}</h4>
+
                 {w.annule ? (
                   <p className="we-block__cancel">
                     <Ban size={14} /> Pas de réunion —{" "}
                     {w.motif || "motif non précisé"}
                   </p>
                 ) : (
-                  <table className="doc-table doc-table--compact">
-                    <tbody>
-                      <tr>
-                        <td className="doc-table__date">{fmtDay(s)}</td>
-                        <td className="mono">{h(w.samediHeure)}</td>
-                        <td>{w.samediLieu || "—"}</td>
-                      </tr>
-                      {w.dimanche && (
-                        <tr>
-                          <td className="doc-table__date">
-                            {fmtDay(addDays(s, 1))}
-                          </td>
-                          <td className="mono">{h(w.dimancheHeure)}</td>
-                          <td>{w.dimancheLieu || "—"}</td>
-                        </tr>
+                  <>
+                    {/* — Bloc samedi — */}
+                    <div className="we-day-block we-day-block--samedi">
+                      <table className="doc-table doc-table--compact">
+                        <tbody>
+                          <tr>
+                            <td className="doc-table__date">{fmtDay(s)}</td>
+                            <td className="mono">{h(w.samediHeure)}</td>
+                            <td>{w.samediLieu || "—"}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      {w.notesSamedi && (
+                        <p className="we-block__notes">
+                          <strong>Infos :</strong> {w.notesSamedi}
+                        </p>
                       )}
-                    </tbody>
-                  </table>
+                    </div>
+
+                    {/* — Bloc dimanche (optionnel) — */}
+                    {w.dimanche && (
+                      <div className="we-day-block we-day-block--dimanche">
+                        <table className="doc-table doc-table--compact">
+                          <tbody>
+                            <tr>
+                              <td className="doc-table__date">
+                                {fmtDay(addDays(s, 1))}
+                              </td>
+                              <td className="mono">{h(w.dimancheHeure)}</td>
+                              <td>{w.dimancheLieu || "—"}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        {w.notesDimanche && (
+                          <p className="we-block__notes">
+                            <strong>Infos :</strong> {w.notesDimanche}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </>
                 )}
+
                 {(w.nettoyage || w.tpl) && (
-                  <div className="badges">
+                  <div className="info-cards">
                     {w.nettoyage && (
-                      <span className="badge badge--clean">
-                        <Sparkles size={12} /> Semaine de nettoyage de la Salle
-                        du Royaume
-                        {w.grandNettoyage
-                          ? ` · Grand nettoyage prévu : ${w.grandNettoyage}`
-                          : ""}
-                      </span>
+                      <div className="info-card info-card--clean">
+                        <div className="info-card__icon">✦</div>
+                        <div>
+                          <div className="info-card__title">
+                            Nettoyage de la salle
+                          </div>
+                          {w.grandNettoyage && (
+                            <div className="info-card__sub">
+                              Grand nettoyage · {w.grandNettoyage}
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     )}
                     {w.tpl && (
-                      <span className="badge badge--tpl">
-                        <BookOpen size={12} /> TPL
-                        {w.tplLieu ? ` · ${w.tplLieu}` : ""}
-                      </span>
+                      <div className="info-card info-card--tpl">
+                        <div className="info-card__icon">◈</div>
+                        <div>
+                          <div className="info-card__title">TPL</div>
+                          {w.tplLieu && (
+                            <div className="info-card__sub">{w.tplLieu}</div>
+                          )}
+                        </div>
+                      </div>
                     )}
                   </div>
-                )}
-                {w.notes && (
-                  <p className="we-block__notes">
-                    <strong>Activités du groupe :</strong> {w.notes}
-                  </p>
                 )}
               </article>
             );
