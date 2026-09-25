@@ -9,12 +9,14 @@ import {
   fmtShort,
   iso,
   monthTitle,
+  feriesSet,
 } from "@/app/dates";
 import { CONDUCTEURS } from "@/app/publishers";
 import Sheet from "@/components/Sheet";
 import ExportBar from "@/components/ExportBar";
 
 const isWe = (d) => d.getDay() === 6 || d.getDay() === 0;
+const isSpecial = (d, feries) => isWe(d) || feries.has(iso(d));
 
 export default function Semaine() {
   const { mois } = useOutletContext();
@@ -22,6 +24,9 @@ export default function Semaine() {
   const sheetRef = useRef(null);
   const weeks = groupWeeks(daysOfMonth(mois));
   const title = `Programme de prédication ${monthTitle(mois)}`;
+
+  const year = parseInt(mois.split("-")[0], 10);
+  const feries = feriesSet(year);
 
   const add = (key) =>
     setData((d) => ({
@@ -70,9 +75,10 @@ export default function Semaine() {
             {w.days.map((d) => {
               const key = iso(d);
               const rows = data[key] || [];
+              const special = isSpecial(d, feries);
               return (
                 <div
-                  className={`day ${isWe(d) ? "day--we" : ""}`}
+                  className={`day ${special ? "day--we" : ""}`}
                   key={key}
                   data-testid={`day-${key}`}
                 >
@@ -182,7 +188,7 @@ export default function Semaine() {
                         sorted(iso(d)).map((r, i, arr) => (
                           <tr
                             key={r.id}
-                            className={`${i === arr.length - 1 ? "doc-table__last" : ""} ${isWe(d) ? "doc-table__we" : ""}`}
+                            className={`${i === arr.length - 1 ? "doc-table__last" : ""} ${isSpecial(d, feries) ? "doc-table__we" : ""}`}
                           >
                             {i === 0 && (
                               <td

@@ -196,11 +196,15 @@ export const initialData = [
 
 // Liste des conducteurs (données distinctes des proclamateurs)
 export const CONDUCTEURS = [
+  "Jérémy BECHOU",
   "Sébastien BECUWE",
+  "Franck ETOUKE",
   "Pascal GRECO",
   "Christian HUMBERT",
+  "Philippe HUTTENBERGER",
   "Michaël JACQUOT",
   "Patrick LE PIEZ",
+  "Patrick POULET",
   "Gérard RAETH",
   "Victor TAHAR",
   "Jean-Marc WERNERT",

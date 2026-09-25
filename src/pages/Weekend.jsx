@@ -242,6 +242,40 @@ export default function Weekend() {
                   </p>
                 ) : (
                   <>
+                    {/* — Infos weekend globales — */}
+                    {(w.nettoyage || w.tpl) && (
+                      <div className="info-cards info-cards--weekend">
+                        {w.nettoyage && (
+                          <div className="info-card info-card--clean">
+                            <div className="info-card__icon">✦</div>
+                            <div>
+                              <div className="info-card__title">
+                                Nettoyage de la salle
+                              </div>
+                              {w.grandNettoyage && (
+                                <div className="info-card__sub">
+                                  Grand nettoyage · {w.grandNettoyage}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        {w.tpl && (
+                          <div className="info-card info-card--tpl">
+                            <div className="info-card__icon">◈</div>
+                            <div>
+                              <div className="info-card__title">TPL</div>
+                              {w.tplLieu && (
+                                <div className="info-card__sub">
+                                  {w.tplLieu}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     {/* — Bloc samedi — */}
                     <div className="we-day-block we-day-block--samedi">
                       <table className="doc-table doc-table--compact">
@@ -282,37 +316,6 @@ export default function Weekend() {
                       </div>
                     )}
                   </>
-                )}
-
-                {(w.nettoyage || w.tpl) && (
-                  <div className="info-cards">
-                    {w.nettoyage && (
-                      <div className="info-card info-card--clean">
-                        <div className="info-card__icon">✦</div>
-                        <div>
-                          <div className="info-card__title">
-                            Nettoyage de la salle
-                          </div>
-                          {w.grandNettoyage && (
-                            <div className="info-card__sub">
-                              Grand nettoyage · {w.grandNettoyage}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    {w.tpl && (
-                      <div className="info-card info-card--tpl">
-                        <div className="info-card__icon">◈</div>
-                        <div>
-                          <div className="info-card__title">TPL</div>
-                          {w.tplLieu && (
-                            <div className="info-card__sub">{w.tplLieu}</div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
                 )}
               </article>
             );
