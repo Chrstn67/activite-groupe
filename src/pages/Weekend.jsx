@@ -37,7 +37,17 @@ function detectJourGrandNettoyage(str) {
   const s = str.toLowerCase();
   if (s.includes("dim")) return "dimanche";
   if (s.includes("sam")) return "samedi";
-  return null; // non précisé → on affichera dans les deux blocs
+  return null;
+}
+
+/**
+ * Retourne le lundi et le vendredi de la semaine du samedi donné.
+ * Le samedi est à J+0, donc lundi = samedi - 5, vendredi = samedi - 1.
+ */
+function semaineLabel(samedi) {
+  const lundi = addDays(samedi, -5);
+  const vendredi = addDays(samedi, -1);
+  return `Semaine du ${fmtShort(lundi)} au ${fmtShort(vendredi)}`;
 }
 
 function Field({ label, children }) {
@@ -248,7 +258,6 @@ export default function Weekend() {
             const w = get(iso(s));
             const jourGN = detectJourGrandNettoyage(w.grandNettoyage);
 
-            // Faut-il afficher le badge grand nettoyage dans ce bloc jour ?
             const showGNSamedi =
               w.nettoyage &&
               w.grandNettoyage &&
@@ -273,37 +282,40 @@ export default function Weekend() {
                   </p>
                 ) : (
                   <>
-                    {/* — Bandeau semaine : petit nettoyage + TPL — */}
-                    {(w.nettoyage || w.tpl) && (
+                    {/* — Bandeau nettoyage semaine — */}
+                    {w.nettoyage && (
+                      <div
+                        className="info-cards info-cards--semaine"
+                        data-label={semaineLabel(s)}
+                      >
+                        <div className="info-card info-card--clean">
+                          <div className="info-card__icon">✦</div>
+                          <div>
+                            <div className="info-card__title">
+                              Nettoyage de la Salle du Royaume
+                            </div>
+                            <div className="info-card__sub">
+                              <div className="info-card__sub-item">
+                                Petit nettoyage après la réunion en semaine
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* — Bandeau TPL weekend — */}
+                    {w.tpl && (
                       <div className="info-cards info-cards--weekend">
-                        {w.nettoyage && (
-                          <div className="info-card info-card--clean">
-                            <div className="info-card__icon">✦</div>
-                            <div>
-                              <div className="info-card__title">
-                                Nettoyage de la Salle du Royaume
-                              </div>
-                              <div className="info-card__sub">
-                                <div className="info-card__sub-item">
-                                  Petit nettoyage après la réunion en semaine
-                                </div>
-                              </div>
-                            </div>
+                        <div className="info-card info-card--tpl">
+                          <div className="info-card__icon">◈</div>
+                          <div>
+                            <div className="info-card__title">TPL</div>
+                            {w.tplLieu && (
+                              <div className="info-card__sub">{w.tplLieu}</div>
+                            )}
                           </div>
-                        )}
-                        {w.tpl && (
-                          <div className="info-card info-card--tpl">
-                            <div className="info-card__icon">◈</div>
-                            <div>
-                              <div className="info-card__title">TPL</div>
-                              {w.tplLieu && (
-                                <div className="info-card__sub">
-                                  {w.tplLieu}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        )}
+                        </div>
                       </div>
                     )}
 
