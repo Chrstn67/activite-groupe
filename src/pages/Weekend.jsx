@@ -74,16 +74,6 @@ function Toggle({ checked, onChange, label, testId }) {
   );
 }
 
-/** Pastille "Grand nettoyage" affichée dans un bloc jour */
-function GrandNettoyageBadge({ heure }) {
-  return (
-    <div className="we-day-block__cleaning">
-      <span>✦</span>
-      <span>Grand nettoyage · {heure}</span>
-    </div>
-  );
-}
-
 export default function Weekend() {
   const { mois } = useOutletContext();
   const [data, setData] = useStored(`pp_weekend_${mois}`, {});
@@ -282,88 +272,68 @@ export default function Weekend() {
                   </p>
                 ) : (
                   <>
-                    {/* — Bandeau nettoyage semaine — */}
                     {w.nettoyage && (
-                      <div
-                        className="info-cards info-cards--semaine"
-                        data-label={semaineLabel(s)}
-                      >
-                        <div className="info-card info-card--clean">
-                          <div className="info-card__icon">✦</div>
-                          <div>
-                            <div className="info-card__title">
-                              Nettoyage de la Salle du Royaume
-                            </div>
-                            <div className="info-card__sub">
-                              <div className="info-card__sub-item">
-                                Petit nettoyage après la réunion en semaine
-                              </div>
-                            </div>
+                      <div className="we2-week">{semaineLabel(s)}</div>
+                    )}
+
+                    {/* — Bandeau nettoyage / TPL — */}
+                    {(w.nettoyage || w.tpl) && (
+                      <div className="we2-top">
+                        {w.nettoyage && (
+                          <div className="we2-chip we2-chip--clean">
+                            <span>✦</span>
+                            <span>Nettoyage de la Salle du Royaume</span>
                           </div>
-                        </div>
+                        )}
+                        {w.tpl && (
+                          <div className="we2-chip we2-chip--tpl">
+                            <span>◈</span>
+                            <span>TPL{w.tplLieu ? ` — ${w.tplLieu}` : ""}</span>
+                          </div>
+                        )}
                       </div>
                     )}
 
-                    {/* — Bandeau TPL weekend — */}
-                    {w.tpl && (
-                      <div className="info-cards info-cards--weekend">
-                        <div className="info-card info-card--tpl">
-                          <div className="info-card__icon">◈</div>
-                          <div>
-                            <div className="info-card__title">TPL</div>
-                            {w.tplLieu && (
-                              <div className="info-card__sub">{w.tplLieu}</div>
-                            )}
+                    {/* — Cartes jour — */}
+                    <div className="we2-days">
+                      <div className="we2-day">
+                        <h4>{fmtDay(s)}</h4>
+                        <span className="we2-day__time mono">
+                          {h(w.samediHeure)}
+                        </span>
+                        <span className="we2-day__who">
+                          {w.samediLieu || "—"}
+                        </span>
+                        {showGNSamedi && (
+                          <div className="we2-day__clean">
+                            ✦ Grand nettoyage · {w.grandNettoyage}
                           </div>
-                        </div>
+                        )}
+                        {w.notesSamedi && (
+                          <p className="we2-day__notes">{w.notesSamedi}</p>
+                        )}
                       </div>
-                    )}
 
-                    {/* — Bloc samedi — */}
-                    <div className="we-day-block we-day-block--samedi">
-                      <table className="doc-table doc-table--compact">
-                        <tbody>
-                          <tr>
-                            <td className="doc-table__date">{fmtDay(s)}</td>
-                            <td className="mono">{h(w.samediHeure)}</td>
-                            <td>{w.samediLieu || "—"}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      {showGNSamedi && (
-                        <GrandNettoyageBadge heure={w.grandNettoyage} />
-                      )}
-                      {w.notesSamedi && (
-                        <p className="we-block__notes">
-                          <strong>Infos :</strong> {w.notesSamedi}
-                        </p>
+                      {w.dimanche && (
+                        <div className="we2-day we2-day--sun">
+                          <h4>{fmtDay(addDays(s, 1))}</h4>
+                          <span className="we2-day__time mono">
+                            {h(w.dimancheHeure)}
+                          </span>
+                          <span className="we2-day__who">
+                            {w.dimancheLieu || "—"}
+                          </span>
+                          {showGNDimanche && (
+                            <div className="we2-day__clean">
+                              ✦ Grand nettoyage · {w.grandNettoyage}
+                            </div>
+                          )}
+                          {w.notesDimanche && (
+                            <p className="we2-day__notes">{w.notesDimanche}</p>
+                          )}
+                        </div>
                       )}
                     </div>
-
-                    {/* — Bloc dimanche (optionnel) — */}
-                    {w.dimanche && (
-                      <div className="we-day-block we-day-block--dimanche">
-                        <table className="doc-table doc-table--compact">
-                          <tbody>
-                            <tr>
-                              <td className="doc-table__date">
-                                {fmtDay(addDays(s, 1))}
-                              </td>
-                              <td className="mono">{h(w.dimancheHeure)}</td>
-                              <td>{w.dimancheLieu || "—"}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        {w.notesDimanche && (
-                          <p className="we-block__notes">
-                            <strong>Infos :</strong> {w.notesDimanche}
-                          </p>
-                        )}
-                        {showGNDimanche && (
-                          <GrandNettoyageBadge heure={w.grandNettoyage} />
-                        )}
-                      </div>
-                    )}
                   </>
                 )}
               </article>
