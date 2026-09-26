@@ -281,8 +281,8 @@ export default function Weekend() {
                         <div className="we2-chip we2-chip--clean">
                           <span>✦</span>
                           <span>
-                            Nettoyage de la Salle du Royaume après chaque
-                            réunion
+                            Nettoyage de la Salle du Royaume{" "}
+                            <i>après chaque réunion</i>
                           </span>
                         </div>
                       </div>
