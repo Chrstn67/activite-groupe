@@ -272,25 +272,19 @@ export default function Weekend() {
                   </p>
                 ) : (
                   <>
+                    {/* — Info semaine : nettoyage — */}
                     {w.nettoyage && (
-                      <div className="we2-week">{semaineLabel(s)}</div>
-                    )}
-
-                    {/* — Bandeau nettoyage / TPL — */}
-                    {(w.nettoyage || w.tpl) && (
-                      <div className="we2-top">
-                        {w.nettoyage && (
-                          <div className="we2-chip we2-chip--clean">
-                            <span>✦</span>
-                            <span>Nettoyage de la Salle du Royaume</span>
-                          </div>
-                        )}
-                        {w.tpl && (
-                          <div className="we2-chip we2-chip--tpl">
-                            <span>◈</span>
-                            <span>TPL{w.tplLieu ? ` — ${w.tplLieu}` : ""}</span>
-                          </div>
-                        )}
+                      <div className="we2-group">
+                        <div className="we2-group__label">
+                          {semaineLabel(s)}
+                        </div>
+                        <div className="we2-chip we2-chip--clean">
+                          <span>✦</span>
+                          <span>
+                            Nettoyage de la Salle du Royaume après chaque
+                            réunion
+                          </span>
+                        </div>
                       </div>
                     )}
 
@@ -331,6 +325,13 @@ export default function Weekend() {
                           {w.notesDimanche && (
                             <p className="we2-day__notes">{w.notesDimanche}</p>
                           )}
+                        </div>
+                      )}
+
+                      {/* — Un seul bandeau TPL, aligné sous les 2 jours — */}
+                      {w.tpl && (
+                        <div className="we2-tpl-banner">
+                          ◈ TPL{w.tplLieu ? ` — ${w.tplLieu}` : ""}
                         </div>
                       )}
                     </div>

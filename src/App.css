@@ -796,25 +796,22 @@ body {
   }
 }
 
-/* ——— Bandeau semaine + cartes jour (Option 2) ——— */
-.we2-week {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
-}
+/* ——— Groupes d'info distincts : semaine (nettoyage) vs weekend (TPL) — Option 2 ——— */
+.we2-group {
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed var(--line-strong);
 
-.we2-top {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
+  & .we2-group__label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
 
   & .we2-chip {
-    flex: 1;
-    min-width: 160px;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -828,11 +825,7 @@ body {
       background: #f0fdf8;
       border-color: #86efac;
       color: #085041;
-    }
-    &.we2-chip--tpl {
-      background: #eff6ff;
-      border-color: #93c5fd;
-      color: #0c447c;
+      justify-content: center;
     }
   }
 }
@@ -887,8 +880,27 @@ body {
       font-size: 0.82rem;
       color: var(--ink-2);
       white-space: pre-line;
+      background-color: #caf8fa;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
     }
   }
+}
+
+/* Bandeau TPL unique, aligné sous les 2 cartes jour (ou sous l'unique carte samedi) */
+.we2-tpl-banner {
+  grid-column: 1 / -1;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0c447c;
+  background: #eff6ff;
+  border: 1px solid #93c5fd;
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
 }
 
 /* ——— Bandeaux info-cards ——— */
