@@ -219,4 +219,4 @@ export const PROCLAMATEURS = initialData.map((p) => p.name);
 export const VILLES = ["Marlenheim", "Molsheim", "Rosheim"];
 
 // Liste des groupes (pour le TPL)
-export const GROUPES = ["G1", "G2", "G3", "G4", "G5", "G6"];
+export const GROUPES = ["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8"];
