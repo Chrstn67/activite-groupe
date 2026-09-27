@@ -1,15 +1,15 @@
+// src/components/Sheet.jsx
 import { forwardRef } from "react";
 import { GROUP_TITLE } from "@/app/publishers";
 
-// Feuille « document imprimé » exportée en PDF / image
 const Sheet = forwardRef(function Sheet(
-  { title, children, wide = false, showGroup = true, testId },
+  { title, children, wide = false, showGroup = true, testId, className = "" },
   ref,
 ) {
   return (
     <div
       ref={ref}
-      className={`sheet ${wide ? "sheet--wide" : ""}`}
+      className={`sheet ${wide ? "sheet--wide" : ""} ${className}`}
       data-testid={testId}
     >
       <header className="sheet__head">

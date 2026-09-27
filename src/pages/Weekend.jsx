@@ -297,7 +297,7 @@ export default function Weekend() {
                         </span>
                         <span className="we2-day__who">
                           {w.samediLieu || "—"}
-                        </span>
+                        </span>{" "}
                         {showGNSamedi && (
                           <div className="we2-day__clean">
                             ✦ Grand nettoyage · {w.grandNettoyage}

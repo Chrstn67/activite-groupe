@@ -22,8 +22,8 @@ body {
 
 .pp-app {
   --ink: #0f172a;
-  --ink-2: #334155;
-  --muted: #64748b;
+  --ink-2: #1e293b;
+  --muted: #475569;
   --line: #e2e8f0;
   --line-strong: #cbd5e1;
   --paper: #ffffff;
@@ -35,6 +35,23 @@ body {
   --serif: "Playfair Display Variable", Georgia, serif;
   --sans: "DM Sans Variable", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Palette affirmée pour les villes / weekends du TPL */
+  --c1: #0d9488;
+  --c1-soft: #ccfbf1;
+  --c1-ink: #115e59;
+  --c2: #d97706;
+  --c2-soft: #fef3c7;
+  --c2-ink: #92400e;
+  --c3: #7c3aed;
+  --c3-soft: #ede9fe;
+  --c3-ink: #5b21b6;
+  --c4: #0284c7;
+  --c4-soft: #e0f2fe;
+  --c4-ink: #075985;
+  --c5: #db2777;
+  --c5-soft: #fce7f3;
+  --c5-ink: #9d174d;
 
   min-height: 100vh;
   color: var(--ink);
@@ -68,6 +85,11 @@ body {
     --accent: #2563eb;
     --accent-2: #10b981;
     --band: #102040;
+  }
+  &.theme-tpl {
+    --accent: #7c3aed;
+    --accent-2: #ec4899;
+    --band: #2e1065;
   }
 
   & h1,
@@ -723,7 +745,13 @@ body {
   }
 }
 
-/* ——— Blocs weekend (preview) ——— */
+/* Cellule date centrée verticalement et horizontalement (utile avec rowSpan) */
+.doc-table .doc-table__date--center {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* ——— Blocs weekend (preview générique) ——— */
 .we-block {
   padding: 1rem 0;
   border-bottom: 3px solid var(--line-strong);
@@ -762,7 +790,6 @@ body {
   }
 }
 
-/* ——— Blocs jour dans la preview ——— */
 .we-day-block {
   display: flex;
   flex-direction: column;
@@ -780,7 +807,6 @@ body {
     border: 1px solid #bae6fd;
   }
 
-  /* ——— Badge grand nettoyage dans le bloc jour ——— */
   & .we-day-block__cleaning {
     display: flex;
     align-items: center;
@@ -796,7 +822,6 @@ body {
   }
 }
 
-/* ——— Groupes d'info distincts : semaine (nettoyage) vs weekend (TPL) — Option 2 ——— */
 .we2-group {
   margin-bottom: 0.85rem;
   padding-bottom: 0.75rem;
@@ -887,7 +912,6 @@ body {
   }
 }
 
-/* Bandeau TPL unique, aligné sous les 2 cartes jour (ou sous l'unique carte samedi) */
 .we2-tpl-banner {
   grid-column: 1 / -1;
   justify-content: center;
@@ -910,7 +934,6 @@ body {
   gap: 0.5rem;
   margin-top: 0.6rem;
 
-  /* Bandeau "Semaine du X au X" — label dynamique via data-label */
   &.info-cards--semaine {
     margin-top: 0;
     margin-bottom: 0.3rem;
@@ -929,7 +952,6 @@ body {
     }
   }
 
-  /* Bandeau "Ce weekend" — label fixe */
   &.info-cards--weekend {
     margin-top: 0;
     margin-bottom: 0.6rem;
@@ -980,7 +1002,6 @@ body {
     position: relative;
     padding-left: 1em;
   }
-
   .info-card__sub-item::before {
     content: "•";
     position: absolute;
@@ -1040,6 +1061,164 @@ body {
   }
   & select {
     width: 5.2rem;
+  }
+}
+
+/* ——— TPL : actions ——— */
+.tpl-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* ——— TPL : grille tableau (édition + aperçu) ——— */
+.tpl-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  table-layout: fixed;
+
+  & thead th {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.55rem 0.6rem;
+    text-align: center;
+    border: 1px solid rgba(15 23 42 / 0.12);
+  }
+
+  & td {
+    padding: 0.45rem 0.6rem;
+    border: 1px solid rgba(15 23 42 / 0.12);
+    vertical-align: middle;
+  }
+
+  & .tpl-grid__date {
+    width: 38%;
+    text-align: left;
+    font-weight: 600;
+    color: var(--ink);
+    background: #f8fafc;
+    font-size: 0.88rem;
+  }
+
+  & .tpl-grid__head {
+    color: #fff;
+  }
+  & .tpl-grid__head--a {
+    background: var(--c1);
+  }
+  & .tpl-grid__head--b {
+    background: var(--c2);
+  }
+  & .tpl-grid__head--c {
+    background: var(--c3);
+  }
+  & .tpl-grid__head--d {
+    background: var(--c4);
+  }
+  & .tpl-grid__head--e {
+    background: var(--c5);
+  }
+
+  & .tpl-grid__cell {
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+  & .tpl-grid__cell--a {
+    background: var(--c1-soft);
+    color: var(--c1-ink);
+  }
+  & .tpl-grid__cell--b {
+    background: var(--c2-soft);
+    color: var(--c2-ink);
+  }
+  & .tpl-grid__cell--c {
+    background: var(--c3-soft);
+    color: var(--c3-ink);
+  }
+  & .tpl-grid__cell--d {
+    background: var(--c4-soft);
+    color: var(--c4-ink);
+  }
+  & .tpl-grid__cell--e {
+    background: var(--c5-soft);
+    color: var(--c5-ink);
+  }
+
+  &.tpl-grid--print tbody tr.tpl-grid__row--zebra .tpl-grid__date {
+    background: #eef2f7;
+  }
+}
+
+.tpl-grid--edit {
+  & .tpl-grid__cell {
+    padding: 0.25rem 0.35rem;
+  }
+  & .tpl-grid__cell select {
+    width: 100%;
+    font-weight: 700;
+    font-size: 0.88rem;
+    text-align: center;
+    background: transparent;
+    border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+    color: inherit;
+    padding: 0.35rem 0.3rem;
+  }
+  & .tpl-grid__cell select:focus {
+    background: #fff;
+  }
+  & .tpl-grid__cell select option {
+    color: var(--ink);
+    background: #fff;
+  }
+}
+
+/* ——— Feuille TPL agrandie pour remplir la page A4 ——— */
+.tpl-sheet-fit {
+  padding: 1.6rem 1.8rem 1.8rem;
+  min-height: 0;
+
+  & .sheet__head {
+    margin-bottom: 1.1rem;
+  }
+  & .sheet__overline {
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+  }
+  & .sheet__title {
+    font-size: 1.6rem;
+    margin-top: 0.25rem;
+  }
+  & .sheet__rule {
+    height: 4px;
+    margin-top: 0.7rem;
+  }
+
+  & .tpl-grid {
+    font-size: 1.05rem;
+
+    & thead th {
+      font-size: 0.92rem;
+      padding: 0.7rem 0.8rem;
+      letter-spacing: 0.08em;
+    }
+    & td {
+      padding: 0.65rem 0.8rem;
+    }
+    & .tpl-grid__date {
+      font-size: 1.05rem;
+      padding: 0.65rem 0.8rem;
+    }
+    & .tpl-grid__cell {
+      font-size: 1.08rem;
+      font-weight: 700;
+      padding: 0.65rem 0.8rem;
+    }
   }
 }
 

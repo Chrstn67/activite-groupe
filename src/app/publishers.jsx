@@ -214,3 +214,9 @@ export const GROUP_TITLE = "Activité du Groupe";
 
 // Helper : extrait uniquement les noms des proclamateurs
 export const PROCLAMATEURS = initialData.map((p) => p.name);
+
+// Liste des villes pour le TPL
+export const VILLES = ["Marlenheim", "Molsheim", "Rosheim"];
+
+// Liste des groupes (pour le TPL)
+export const GROUPES = ["G1", "G2", "G3", "G4", "G5", "G6"];

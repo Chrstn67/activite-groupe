@@ -1,5 +1,6 @@
+// src/components/Layout.jsx
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { CalendarDays, Sun, ClipboardList } from "lucide-react";
+import { CalendarDays, Sun, ClipboardList, MapPin } from "lucide-react";
 import { Toaster } from "sonner";
 import { useStored } from "@/app/storage";
 import { currentMonth } from "@/app/dates";
@@ -14,6 +15,7 @@ const TABS = [
     id: "nav-tab-semaine",
   },
   { to: "/weekend", label: "Weekend", icon: Sun, id: "nav-tab-weekend" },
+  { to: "/tpl", label: "TPL", icon: MapPin, id: "nav-tab-tpl" },
   {
     to: "/rapports",
     label: "Rapports",
