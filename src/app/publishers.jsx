@@ -35,7 +35,7 @@ export const initialData = [
   {
     name: "BECUWE Emelyne",
     auxiliar: false,
-    permanent: false,
+    permanent: true,
     worked: false,
     bibleCourses: "",
     remarks: "",
