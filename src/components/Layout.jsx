@@ -1,8 +1,9 @@
 // src/components/Layout.jsx
+import { useState } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { CalendarDays, Sun, ClipboardList, MapPin } from "lucide-react";
 import { Toaster } from "sonner";
-import { useStored } from "@/app/storage";
+
 import { currentMonth } from "@/app/dates";
 import { GROUP_TITLE } from "@/app/publishers";
 import "@/app.css";
@@ -25,7 +26,7 @@ const TABS = [
 ];
 
 export default function Layout() {
-  const [mois, setMois] = useStored("pp_mois", currentMonth());
+  const [mois, setMois] = useState(() => currentMonth());
   const section = useLocation().pathname.split("/")[1] || "semaine";
 
   return (
