@@ -40,14 +40,14 @@ export const initialData = [
     bibleCourses: "",
     remarks: "",
   },
-  {
-    name: "BECUWE Romane",
-    auxiliar: false,
-    permanent: false,
-    worked: false,
-    bibleCourses: "",
-    remarks: "",
-  },
+  // {
+  //   name: "BECUWE Romane",
+  //   auxiliar: false,
+  //   permanent: false,
+  //   worked: false,
+  //   bibleCourses: "",
+  //   remarks: "",
+  // },
   {
     name: "BECUWE Sébastien",
     auxiliar: false,
@@ -198,6 +198,7 @@ export const initialData = [
 export const CONDUCTEURS = [
   "Jérémy BECHOU",
   "Sébastien BECUWE",
+  "Hervé BRUCKER",
   "Franck ETOUKE",
   "Pascal GRECO",
   "Christian HUMBERT",
